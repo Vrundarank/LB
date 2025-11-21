@@ -1,0 +1,58 @@
+/////////////////////////////////////////////////////////////////
+//
+//  Required Header File
+//
+/////////////////////////////////////////////////////////////////
+
+
+#include<stdio.h>
+#include<stdbool.h>
+
+
+/////////////////////////////////////////////////////////////////
+//
+//  Function Name : 
+//  Description :
+//  Input :
+//  Output :
+//  Author :
+//  Date :
+//
+/////////////////////////////////////////////////////////////////
+bool CheckEvenOdd(int iNo)                          //Helper func
+{
+    int iRem = 0;
+    irem = iNo % 2;
+    
+    if((iNo%2) == 0)
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+
+}
+
+/////////////////////////////////////////////////////////////////
+//
+//  Entry Point Function
+//
+/////////////////////////////////////////////////////////////////
+
+int main()
+{
+    int iValue = 0;
+    bool bRet = false;
+
+    printf("Enter Number : ");
+    scanf("%d",&iValue);
+
+    printf("Number %d is even : ",iValue);
+
+    bRet = CheckEvenOdd(iValue);
+    
+
+    return 0;
+}
