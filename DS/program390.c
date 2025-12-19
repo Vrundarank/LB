@@ -1,0 +1,190 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+#pragma pack(1)
+
+struct node
+{
+	int data;
+	struct node *next;
+};
+
+typedef struct node NODE;
+typedef struct node * PNODE;
+typedef struct node ** PPNODE;
+
+void InsertFirst(PPNODE first, int no)
+{
+	PNODE newn = NULL;
+
+	newn = (PNODE)malloc(sizeof(NODE));
+
+	newn->data = no;
+	newn->next = NULL;
+
+	if(NULL == (*first))
+	{
+		(*first) = newn;
+	}
+	else
+	{
+		newn->next = (*first);	// only use brackets if -> is used
+		(*first) = newn;
+	}
+}
+
+void InsertLast(PPNODE first, int no)
+{
+	PNODE newn = NULL;
+	PNODE temp = NULL;
+
+	newn = (PNODE)malloc(sizeof(NODE));
+
+	newn->data = no;
+	newn->next = NULL;
+
+	if(NULL == (*first))
+	{
+		(*first) = newn;
+	}
+	else
+	{
+		temp = *first;
+		while(temp->next != NULL)	// TYPE 2
+		{
+			temp = temp->next;
+		}
+
+		temp->next = newn;
+	}
+}
+
+void InsertAtPos(PPNODE first, int no, int pos)
+{
+	
+}
+
+void DeleteFirst(PPNODE first)
+{
+	PNODE temp = NULL;
+
+	if(NULL == *first)
+	{
+		return;
+	}
+	else if((*first)->next == NULL)
+	{
+		free(*first);
+		*first = NULL;
+	}
+	else
+	{
+		temp = *first;
+		*first = (*first)->next;
+		free(temp);
+	}
+}
+
+void DeleteLast(PPNODE first)
+{
+	PNODE temp = NULL;
+
+	if(NULL == *first)
+	{
+		return;
+	}
+	else if((*first)->next == NULL)
+	{
+		free(*first);
+		*first = NULL;
+	}
+	else
+	{
+		temp = *first;
+		while(temp->next->next != NULL)	// TYPE 3
+		{
+			temp = temp->next;
+		}
+
+		free(temp->next);
+		temp->next = NULL;
+	}
+}
+
+void DeleteAtPos(PPNODE first, int pos)
+{
+	
+}
+
+void Display(PNODE first)
+{
+	if(NULL == first)
+	{
+		printf("List is empty");
+	}
+
+	while(first != NULL)	// TYPE 2
+	{
+		printf("| %d |->", first->data);
+		first = first->next;
+	}
+
+	printf("NULL\n");
+}
+
+int Count(PNODE first)
+{
+	int iCount = 0;
+
+	while(first != NULL)
+	{
+		iCount++;
+		first = first->next;
+	}
+
+	return iCount;
+}
+
+int main()
+{
+	PNODE head = NULL;
+	int iRet = 0;
+
+	InsertFirst(&head, 51);
+	InsertFirst(&head, 21);
+	InsertFirst(&head, 11);
+
+	Display(head);
+
+	iRet = Count(head);
+
+	printf("Number of nodes are %d\n", iRet);
+
+	InsertLast(&head, 101);
+	InsertLast(&head, 111);
+	InsertLast(&head, 121);
+
+	Display(head);
+
+	iRet = Count(head);
+
+	printf("Number of nodes are %d\n", iRet);
+
+	DeleteFirst(&head);
+
+	Display(head);
+
+	iRet = Count(head);
+
+	printf("Number of nodes are %d\n", iRet);
+
+	DeleteLast(&head);
+
+	Display(head);
+
+	iRet = Count(head);
+
+	printf("Number of nodes are %d\n", iRet);
+
+	return 0;
+}
