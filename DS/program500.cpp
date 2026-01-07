@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////
 //      Generalised Data Structure Library
-///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////
 
 /*
 ---------------------------------------------------------------------------------------
@@ -10,15 +10,17 @@ Singly Linear            SinglyLLLnode               SinglyLLL          Done
 Singly Cirular           SinglyCLLnode               SinglyCLL
 Doubly Linear            DoublyLLLnode               DoublyLLL          Done
 Doubly Circular          DoublyCLLnode               DoublyCLL
+Stack                    Stacknode                   Stack              Done
+Queue                    Queuenode                   Queue              Done
 ---------------------------------------------------------------------------------------
 */
 
 #include<iostream>
 using namespace std;
 
-///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //          Singly Linear LinlkedList using Generic Approach
-////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 #pragma pack(1)
 template<class T>
@@ -62,16 +64,16 @@ SinglyLLL<T> :: SinglyLLL()
     this->iCount = 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 //
 //  Function Name :     InsertFirst
 //  Input :             Data of node
 //  Output :            Nothing
 //  Description :       Used to insert node at first position
 //  Author :            Vrundarank Shivaji Parite
-//  Date :              06/01/2026
+//  Date :              07/01/2026
 //
-////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 template<class T>
 void SinglyLLL<T> :: InsertFirst(T no)
@@ -270,9 +272,9 @@ void SinglyLLL<T> ::DeleteAtPos(int pos)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 //          Doubly Linear LinlkedList using Generic Approach
-////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 #pragma pack(1)
 template<class T>
@@ -523,11 +525,248 @@ int DoublyLLL<T> ::Count()
     return this->iCount;
 }
 
-//////////////////////////////// End of Library ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+//                  Stack using Generic Approach
+///////////////////////////////////////////////////////////////////////
+
+
+#pragma pack(1)
+template<class T>
+class Stacknode
+{
+    public:
+        T data;
+        Stacknode<T> *next;
+
+        Stacknode(T no)
+        {
+            this->data = no;
+            this->next = NULL;
+        }
+};
+
+template<class T>
+class Stack
+{
+    private:
+        Stacknode<T> *first;
+        int iCount;
+
+    public:
+        Stack();
+
+        void push(T);     
+        T pop();
+        T peep();
+        void Display();
+        int Count();
+};
+
+template<class T>
+Stack<T> :: Stack()
+{
+    cout<<"Stack gets created succesfully...\n";
+
+    this->first = NULL;
+    this->iCount = 0;
+}
+
+template<class T>
+void Stack<T> :: push(T no)
+{
+    Stacknode<T> *newn = NULL;
+
+    newn = new Stacknode<T>(no);
+
+    newn->next = this->first;
+    this->first = newn;
+
+    this->iCount++;
+}
+
+template<class T>
+T Stack<T> :: pop()
+{
+    T Value = 0;
+    Stacknode<T> *temp = this->first;
+
+    if(this->first == NULL)
+    {
+        cout<<"Stack is empty\n";
+        return -1;
+    }
+
+    Value = this->first->data;
+
+    this->first = this->first->next;
+    delete temp;
+
+    this->iCount--;
+
+    return Value;
+}   
+
+template<class T>
+T Stack<T> :: peep()
+{
+    T Value = 0;
+
+    if(this->first == NULL)
+    {
+        cout<<"Stack is empty\n";
+        return -1;
+    }
+
+    Value = this->first->data;    
+    return Value;
+}
+
+template<class T>
+void Stack<T> :: Display()
+{
+    Stacknode<T> *temp = this->first;
+
+    if(this->first == NULL)
+    {
+        cout<<"Stack is empty\n";
+        return;
+    }
+
+    while(temp != NULL)
+    {
+        cout<<"|\t"<<temp->data<<"\t|\n";
+        temp = temp->next;
+    }
+}
+
+template<class T>
+int Stack<T> :: Count()
+{
+    return this->iCount;
+}
+
+///////////////////////////////////////////////////////////////////////
+//          Queue using Generic Approach
+///////////////////////////////////////////////////////////////////////
+
+#pragma pack(1)
+template <class T>
+class Queuenode
+{
+    public:
+        T data;
+        Queuenode<T> *next;
+
+        Queuenode(T no)
+        {
+            this->data = no;
+            this->next = NULL;
+        }
+};
+
+template <class T>
+class Queue
+{
+    private:
+        Queuenode<T> *first;
+        Queuenode<T> *last;
+        
+        int iCount;
+
+    public:
+        Queue();
+
+        void enqueue(T);          
+        T dequeue();              
+        void Display();
+        int Count();
+};
+
+template <class T>
+Queue<T> :: Queue()
+{
+    cout<<"Queue gets created succesfully...\n";
+
+    this->first = NULL;
+    this->last = NULL;
+
+    this->iCount = 0;
+}
+
+template <class T>
+void Queue<T> :: enqueue(T no)
+{
+    Queuenode<T> *newn = NULL;
+
+    newn = new Queuenode<T>(no);
+
+    if(this->first == NULL && this->last == NULL)
+    {
+        this->first = newn;
+        this->last = newn;
+    }
+    else
+    {
+        this->last->next = newn;
+        this->last = this->last->next;
+    }
+
+    this->iCount++;
+}
+
+template <class T>
+T Queue<T> :: dequeue()
+{
+    T Value = 0;
+    Queuenode<T> *temp = this->first;
+
+    if(this->first == NULL && this->last == NULL)
+    {
+        cout<<"Queue is empty\n";
+        return -1;
+    }
+
+    Value = this->first->data;
+
+    this->first = this->first->next;
+    delete temp;
+
+    this->iCount--;
+
+    return Value;
+}
+
+template <class T>
+void Queue<T> :: Display()
+{
+    Queuenode<T> *temp = this->first;
+
+    if(this->first == NULL && this->last == NULL)
+    {
+        cout<<"Queue is empty\n";
+        return;
+    }
+
+    while(temp != NULL)
+    {
+        cout<<"| "<<temp->data<<" | - ";
+        temp = temp->next;
+    }
+
+    cout<<"\n";
+}
+
+template <class T>
+int Queue<T> :: Count()
+{
+    return this->iCount;
+}
+
+//////////////////////////////// End of Library //////////////////////////////////
 
 int main()
 {
-SinglyLLL<int> *obj = new SinglyLLL<int>();
+    SinglyLLL<int> *obj = new SinglyLLL<int>();
 
     int iRet = 0;
 
@@ -578,7 +817,7 @@ SinglyLLL<int> *obj = new SinglyLLL<int>();
     
     delete obj;
 
-    ////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     
     DoublyLLL<char> *dobj = new DoublyLLL<char>();
 
@@ -624,5 +863,77 @@ SinglyLLL<int> *obj = new SinglyLLL<int>();
     
     delete dobj;
 
+    ///////////////////////////////////////////////////////////////
+
+     Stack<char> *sobj = new Stack<char>();
+
+    sobj->push('a');
+    sobj->push('b');
+    sobj->push('c');
+    sobj->push('d');
+    
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    cout<<"Return value of peep is : "<<sobj->peep()<<"\n";
+
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    cout<<"Poped element is : "<<sobj->pop()<<"\n";
+    
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    cout<<"Poped element is : "<<sobj->pop()<<"\n";
+    
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    sobj->push('e');
+
+    sobj->Display();
+
+    cout<<"Number of elements in Stack are : "<<sobj->Count()<<"\n";
+
+    delete sobj;
+    
+    ///////////////////////////////////////////////////////////////////
+
+       Queue<double> *qobj = new Queue<double>();
+
+    qobj->enqueue(11.56789);
+    qobj->enqueue(21.56789);
+    qobj->enqueue(51.56789);
+    qobj->enqueue(101.56789);
+    
+    qobj->Display();
+
+    cout<<"Number of elements in queue are : "<<qobj->Count()<<"\n";
+
+    cout<<"Removed element is : "<<qobj->dequeue()<<"\n";
+    
+    qobj->Display();
+
+    cout<<"Number of elements in queue are : "<<qobj->Count()<<"\n";
+
+    cout<<"Removed element is : "<<qobj->dequeue()<<"\n";
+    
+    qobj->Display();
+
+    cout<<"Number of elements in queue are : "<<qobj->Count()<<"\n";
+
+    qobj->enqueue(121.56789);
+
+    qobj->Display();
+
+    cout<<"Number of elements in queue are : "<<qobj->Count()<<"\n";
+
+    delete qobj;
+    
     return 0;
 }
